@@ -15,7 +15,6 @@ public class CharacterMovement : MonoBehaviour {
 	float turnAmount;
 	float forwardAmount;
 	Vector3 velocity;
-	Rigidbody rigidbody;
 
 	float jumpPower = 10;
 
@@ -23,7 +22,6 @@ public class CharacterMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		rigidbody = GetComponent<Rigidbody> ();
 		SetupAnimator ();
 	}
 
@@ -34,7 +32,7 @@ public class CharacterMovement : MonoBehaviour {
 
 		this.moveInput = move;
 
-		velocity = rigidbody.velocity;
+		velocity = GetComponent<Rigidbody>().velocity;
 
 		ConvertMoveInput ();
 		ApplyExtraTurnRotation ();
@@ -56,8 +54,8 @@ public class CharacterMovement : MonoBehaviour {
 	void OnAnimatorMove(){
 		if (onGround && Time.deltaTime > 0) {
 			Vector3 v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
-			v.y = rigidbody.velocity.y;
-			rigidbody.velocity = v;
+			v.y = GetComponent<Rigidbody>().velocity.y;
+			GetComponent<Rigidbody>().velocity = v;
 		}
 
 	}
@@ -65,6 +63,9 @@ public class CharacterMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	void LateUpdate(){
 	}
 
 	void GroundCheck(){
@@ -75,15 +76,15 @@ public class CharacterMovement : MonoBehaviour {
 
 		if (velocity.y < jumpPower * .5f) {
 			//onGround = false;
-			rigidbody.useGravity = true;
+			GetComponent<Rigidbody>().useGravity = true;
 			foreach (var hit in hits) {
 				if (!hit.collider.isTrigger) {
 					if (velocity.y <= 0) {
-						rigidbody.position = Vector3.MoveTowards (rigidbody.position, hit.point, Time.deltaTime * 5);
+						GetComponent<Rigidbody>().position = Vector3.MoveTowards (GetComponent<Rigidbody>().position, hit.point, Time.deltaTime * 5);
 					}
 
 					onGround = true;
-					rigidbody.useGravity = false;
+					GetComponent<Rigidbody>().useGravity = false;
 					//
 					break;
 				}
@@ -107,6 +108,7 @@ public class CharacterMovement : MonoBehaviour {
 	void ApplyExtraTurnRotation(){
 		float turnSpeed = Mathf.Lerp (stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
 		transform.Rotate (0, turnAmount * turnSpeed * Time.deltaTime, 0);
+
 	}
 
 	class RayHitComparer : IComparer

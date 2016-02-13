@@ -22,12 +22,15 @@ public class UserInput : MonoBehaviour {
 		float horizontal = Input.GetAxis ("Horizontal");
 		float vertical = Input.GetAxis ("Vertical");
 
+
+
 		if (cam != null) {
 			camForward = Vector3.Scale (cam.forward, new Vector3 (1, 0, 1)).normalized;
 			move = vertical * camForward + horizontal * cam.right;
 		} else {
 			move = vertical * Vector3.forward + horizontal * Vector3.right;
 		}
+
 		if (move.magnitude > 1) {
 			move.Normalize ();
 		}
@@ -52,7 +55,11 @@ public class UserInput : MonoBehaviour {
 			}
 		}
 
-		move *= walkMultiplier * 2;
+		move *= walkMultiplier;
 		charMove.Move (move);
+	}
+
+	void LateUpdate(){
+		
 	}
 }
