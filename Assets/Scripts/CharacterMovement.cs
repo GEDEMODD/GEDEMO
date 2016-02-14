@@ -7,6 +7,7 @@ public class CharacterMovement : MonoBehaviour {
 	float stationaryTurnSpeed = 180;
 	float movingTurnSpeed = 360;
 
+
 	bool onGround;
 
 	Animator animator;
@@ -22,13 +23,16 @@ public class CharacterMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		SetupAnimator ();
 	}
 
 	public void Move(Vector3 move){
+		
 		if (move.magnitude > 1) {
 			move.Normalize ();
 		}
+	
 
 		this.moveInput = move;
 
@@ -52,6 +56,7 @@ public class CharacterMovement : MonoBehaviour {
 	}
 
 	void OnAnimatorMove(){
+		
 		if (onGround && Time.deltaTime > 0) {
 			Vector3 v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
 			v.y = GetComponent<Rigidbody>().velocity.y;
@@ -82,7 +87,7 @@ public class CharacterMovement : MonoBehaviour {
 					if (velocity.y <= 0) {
 						GetComponent<Rigidbody>().position = Vector3.MoveTowards (GetComponent<Rigidbody>().position, hit.point, Time.deltaTime * 5);
 					}
-	
+
 					onGround = true;
 					GetComponent<Rigidbody>().useGravity = false;
 
@@ -94,6 +99,7 @@ public class CharacterMovement : MonoBehaviour {
 	}
 
 	void ConvertMoveInput(){
+
 		Vector3 localMove = transform.InverseTransformDirection (moveInput);
 		turnAmount = Mathf.Atan2 (localMove.x, localMove.z);
 		forwardAmount = localMove.z;
@@ -104,6 +110,7 @@ public class CharacterMovement : MonoBehaviour {
 
 		animator.SetFloat ("Forward", forwardAmount, 0.1f, Time.deltaTime);
 		animator.SetFloat ("Turn", turnAmount, 0.1f, Time.deltaTime);
+
 	}
 
 	void ApplyExtraTurnRotation(){
