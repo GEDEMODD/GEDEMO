@@ -10,9 +10,11 @@ public class Collector : MonoBehaviour {
 	public Text countText;
 	public Text winText;
 	public Text fps;
+	private AudioSource collectSound;
 
 	void Start(){
-		
+		collectSound = GetComponent<AudioSource> ();
+		collectSound.volume = 0.4f;
 		count = 0;
 		SetCountText ();
 		winText.text = "";
@@ -28,6 +30,8 @@ public class Collector : MonoBehaviour {
 			other.gameObject.SetActive (false);
 			count++;
 			SetCountText ();
+			collectSound.Play ();
+			collectSound.Play (44100);
 		}
 	}
 
