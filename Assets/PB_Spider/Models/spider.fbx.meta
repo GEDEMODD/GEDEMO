@@ -126,6 +126,7 @@ ModelImporter:
     7400006: attack
     7400008: die
     9500000: //RootNode
+    11100000: //RootNode
     13700000: mesh
   materials:
     importMaterials: 1
@@ -905,7 +906,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
