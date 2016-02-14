@@ -6,13 +6,21 @@ using System.Collections;
 public class Collector : MonoBehaviour {
 
 	private int count;
+	public int howManyCubes;
 	public Text countText;
 	public Text winText;
+	public Text fps;
 
 	void Start(){
+		
 		count = 0;
 		SetCountText ();
 		winText.text = "";
+		fps.text = "";
+	}
+
+	void Update(){
+		fps.text = (1/Time.deltaTime).ToString () + " FPS";
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -24,8 +32,8 @@ public class Collector : MonoBehaviour {
 	}
 
 	void SetCountText(){
-		countText.text = "Score: " + count.ToString ();
-		if (count >= 1) {
+		countText.text = "Found " + count.ToString () + " of " + howManyCubes.ToString() + " items total" ;
+		if (count >= howManyCubes) {
 			winText.text = "You've found all the cubes!";
 		}
 	}
